@@ -1,0 +1,40 @@
+def simple_reflex_agent(location, status):
+    if status == "Dirty":
+        return "Suck"
+    elif location == "A":
+        return "Move Right"
+    else:
+        return "Move Left"
+
+
+room_A = input("Enter status of Room A (Clean/Dirty): ").capitalize()
+room_B = input("Enter status of Room B (Clean/Dirty): ").capitalize()
+location = input("Enter vacuum location (A/B): ").upper()
+
+print("\nInitial State:")
+print("Room A:", room_A)
+print("Room B:", room_B)
+print("Vacuum Location:", location)
+
+for i in range(4):
+    status = room_A if location == "A" else room_B
+
+    action = simple_reflex_agent(location, status)
+    print("Action:", action)
+
+    if action == "Suck":
+        if location == "A":
+            room_A = "Clean"
+        else:
+            room_B = "Clean"
+
+    elif action == "Move Right":
+        location = "B"
+
+    elif action == "Move Left":
+        location = "A"
+
+print("\nFinal State:")
+print("Room A:", room_A)
+print("Room B:", room_B)
+print("Vacuum Location:", location)
