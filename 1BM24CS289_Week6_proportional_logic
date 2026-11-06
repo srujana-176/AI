@@ -1,0 +1,54 @@
+def implies(p, q):
+    return (not p) or q
+
+
+def check_KB(P, Q, R):
+    s1 = implies(Q, P)
+    s2 = implies(P, not Q)
+    s3 = Q or R
+
+    return s1 and s2 and s3
+
+
+def TT_Entails(query):
+    symbols = [True, False]
+
+    for P in symbols:
+        for Q in symbols:
+            for R in symbols:
+
+                kb = check_KB(P, Q, R)
+
+                if kb:
+                    if query(P, Q, R) == False:
+                        return False
+
+    return True
+
+
+# Display Truth Table
+print("P Q R | Q->P P->~Q QVR | KB")
+
+for P in [True, False]:
+    for Q in [True, False]:
+        for R in [True, False]:
+
+            s1 = implies(Q, P)
+            s2 = implies(P, not Q)
+            s3 = Q or R
+
+            kb = s1 and s2 and s3
+
+            print(P, Q, R, "|", s1, s2, s3, "|", kb)
+
+
+# Check Queries
+q1 = lambda P, Q, R: R
+q2 = lambda P, Q, R: implies(R, P)
+q3 = lambda P, Q, R: implies(Q, R)
+
+print("\nEntailment Results:")
+
+print("KB entails R:", TT_Entails(q1))
+print("KB entails R -> P:", TT_Entails(q2))
+print("KB entails Q -> R:", TT_Entails(q3))
